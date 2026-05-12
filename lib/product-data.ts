@@ -125,3 +125,22 @@ export function uniqueCategories(products: Product[]): string[] {
   const set = new Set(products.map((p) => p.category).filter(Boolean))
   return ["Все", ...Array.from(set).sort((a, b) => a.localeCompare(b, "ru"))]
 }
+
+/**
+ * Главная: избранные товары; если ни одного с featured=true — показываем до 8 позиций из каталога.
+ */
+export async function fetchHomeFeaturedSection(): Promise<{
+  products: Product[]
+  source: "featured" | "catalog_fallback" | "empty"
+}> {
+  const featured = await fetchFeaturedProducts()
+  if (featured.length > 0) {
+    return { products: featured.slice(0, 8), source: "featured" }
+  }
+  const all = await fetchProducts()
+  const slice = all.slice(0, 8)
+  if (slice.length > 0) {
+    return { products: slice, source: "catalog_fallback" }
+  }
+  return { products: [], source: "empty" }
+}

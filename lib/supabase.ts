@@ -36,6 +36,14 @@ export function tryCreateSupabaseClient(): SupabaseClient | null {
   return createClient(url, key)
 }
 
+/** Для UI: заданы ли URL и anon-ключ (например на Vercel). */
+export function isSupabaseAnonConfigured(): boolean {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim(),
+  )
+}
+
 export function tryCreateSupabaseServiceClient(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim()
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
