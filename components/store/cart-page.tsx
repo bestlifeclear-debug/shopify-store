@@ -6,7 +6,6 @@ import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCartStore } from "@/store/cart-store"
 import { formatPrice } from "@/lib/format-price"
-import { FLAT_SHIPPING_RUB, FREE_SHIPPING_THRESHOLD_RUB } from "@/lib/constants"
 
 export function CartPage() {
   const items = useCartStore((s) => s.items)
@@ -17,9 +16,7 @@ export function CartPage() {
     (sum, item) => sum + item.product.price * item.quantity,
     0,
   )
-  const shipping = 0;
-    subtotal >= FREE_SHIPPING_THRESHOLD_RUB ? 0 : FLAT_SHIPPING_RUB
-  const total = subtotal + shipping
+  const total = subtotal
 
   if (items.length === 0) {
     return (
@@ -142,19 +139,6 @@ export function CartPage() {
                 <span className="text-muted-foreground">Товары</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Доставка</span>
-                <span>
-                  {shipping === 0
-                    ? "Бесплатно"
-                    : formatPrice(shipping)}
-                </span>
-              </div>
-              {subtotal < FREE_SHIPPING_THRESHOLD_RUB && (
-                <p className="text-xs text-muted-foreground">
-                  Бесплатная доставка
-                </p>
-              )}
               <div className="border-t pt-4">
                 <div className="flex justify-between text-lg font-semibold">
                   <span>Всего</span>

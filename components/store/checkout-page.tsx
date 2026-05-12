@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/form"
 import { useCartStore } from "@/store/cart-store"
 import { formatPrice } from "@/lib/format-price"
-import { FLAT_SHIPPING_RUB, FREE_SHIPPING_THRESHOLD_RUB } from "@/lib/constants"
 import {
   checkoutFormSchema,
   type CheckoutFormValues,
@@ -46,9 +45,7 @@ export function CheckoutPage() {
     [items],
   )
 
-  const shipping = 0
-    subtotal >= FREE_SHIPPING_THRESHOLD_RUB ? 0 : FLAT_SHIPPING_RUB
-  const grandTotal = subtotal + shipping
+  const total = subtotal
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
@@ -119,10 +116,10 @@ export function CheckoutPage() {
 
       if (payload.orderId && typeof payload.orderId === "string") {
         router.replace(
-          `/order-success?orderId=${encodeURIComponent(payload.orderId)}&total=${encodeURIComponent(String(grandTotal))}`,
+          `/order-success?orderId=${encodeURIComponent(payload.orderId)}&total=${encodeURIComponent(String(total))}`,
         )
       } else {
-        router.replace(`/order-success?total=${encodeURIComponent(String(grandTotal))}`)
+        router.replace(`/order-success?total=${encodeURIComponent(String(total))}`)
       }
       clearCart()
     } catch {
@@ -342,7 +339,7 @@ export function CheckoutPage() {
               <Button type="submit" size="lg" className="w-full" disabled={busy}>
                 {busy
                   ? "Отправка…"
-                  : `Перейти к оплате · ${formatPrice(grandTotal)}`}
+                  : `Перейти к оплате · ${formatPrice(total)}`}
               </Button>
             </form>
           </Form>
@@ -387,19 +384,10 @@ export function CheckoutPage() {
                 <span className="text-muted-foreground">Товары</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Доставка</span>
-                <span>{shipping === 0 ? "Бесплатно" : formatPrice(shipping)}</span>
-              </div>
-              {subtotal < FREE_SHIPPING_THRESHOLD_RUB && (
-                <p className="text-xs text-muted-foreground">
-                  Бесплатная доставка
-                </p>
-              )}
               <div className="border-t pt-4">
                 <div className="flex justify-between text-lg font-semibold">
                   <span>Итого</span>
-                  <span>{formatPrice(grandTotal)}</span>
+                  <span>{formatPrice(total)}</span>
                 </div>
               </div>
             </div>

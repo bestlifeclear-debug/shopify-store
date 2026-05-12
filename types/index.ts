@@ -7,8 +7,6 @@ export type OrderStatus =
   | "completed"
   | "cancelled"
 
-export type DeliveryMethod = "cdek" | "boxberry" | "russian_post" | "courier"
-
 export type PaymentMethod =
   | "yoomoney"
   | "card"
@@ -58,7 +56,6 @@ export interface Order {
   comment?: string | null
   total: number
   status: OrderStatus
-  deliveryMethod?: DeliveryMethod | null
   paymentMethod?: PaymentMethod | null
   yookassaPaymentId?: string | null
   createdAt?: string | null

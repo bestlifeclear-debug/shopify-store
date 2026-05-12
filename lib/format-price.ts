@@ -4,7 +4,7 @@ const rubFormatter = new Intl.NumberFormat("ru-RU", {
   maximumFractionDigits: 0,
 })
 
-/** Форматирует целое число рублей как «12 490 ₽» */
+/** Форматирует целое число рублей как «12 345 ₽» */
 export function formatPrice(amountRub: number): string {
   return rubFormatter.format(Math.round(amountRub))
 }

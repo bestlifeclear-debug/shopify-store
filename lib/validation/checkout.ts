@@ -1,13 +1,6 @@
 import { z } from "zod"
 import { normalizeRuPhoneE164 } from "@/lib/phone-ru"
 
-export const deliveryMethodSchema = z.enum([
-  "cdek",
-  "boxberry",
-  "russian_post",
-  "courier",
-])
-
 export const paymentMethodSchema = z.literal("yoomoney")
 
 export const checkoutFormSchema = z

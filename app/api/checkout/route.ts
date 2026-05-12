@@ -6,7 +6,6 @@ import {
 } from "@/lib/supabase"
 import { buildYooMoneyBridgeUrl } from "@/lib/yoomoney"
 import { normalizeRuPhoneE164 } from "@/lib/phone-ru"
-import { FLAT_SHIPPING_RUB, FREE_SHIPPING_THRESHOLD_RUB } from "@/lib/constants"
 import { paymentMethodSchema } from "@/lib/validation/checkout"
 import {
   cancelStalePendingPaymentOrders,
@@ -111,9 +110,7 @@ export async function POST(req: Request) {
     resolvedLines.push({ productId: line.productId, quantity: line.quantity, price: p })
   }
 
-  const shipping =
-    subtotal >= FREE_SHIPPING_THRESHOLD_RUB ? 0 : FLAT_SHIPPING_RUB
-  const total = subtotal + shipping
+  const total = subtotal
 
   const fullAddress = [
     customer.city,
