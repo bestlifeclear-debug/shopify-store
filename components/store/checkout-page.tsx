@@ -46,7 +46,7 @@ export function CheckoutPage() {
     [items],
   )
 
-  const shipping =
+  const shipping = 0
     subtotal >= FREE_SHIPPING_THRESHOLD_RUB ? 0 : FLAT_SHIPPING_RUB
   const grandTotal = subtotal + shipping
 
