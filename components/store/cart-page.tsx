@@ -17,7 +17,7 @@ export function CartPage() {
     (sum, item) => sum + item.product.price * item.quantity,
     0,
   )
-  const shipping =
+  const shipping = 0;
     subtotal >= FREE_SHIPPING_THRESHOLD_RUB ? 0 : FLAT_SHIPPING_RUB
   const total = subtotal + shipping
 
